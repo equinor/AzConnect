@@ -1,0 +1,71 @@
+name: Action-Test
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - action.yml
+      - .github/workflows/Action-Test.yml
+      - scripts/**
+
+env:
+  TenantID: ${{ secrets.TENANTID }}
+  AppID: ${{ secrets.APPID }}
+  Subscription: ${{ secrets.SUBSCRIPTION }}
+  AppSecret: ${{ secrets.APP_SECRET }}
+
+jobs:
+  DefaultTest:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Connect to Azure using defaults
+        uses: equinor/AzConnect@v1
+        # Login to AzCLI using TenantID, AppID, AppSecret and Subscription from environment variables.
+
+
+  SubscriptionOverrideTest:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Connect to Azure
+        uses: equinor/AzConnect@v1
+        with:
+          Subscription: ${{ secrets.SUBSCRIPTION_OVERRIDE  }}
+        # Login to AzCLI using TenantID, AppID and AppSecret from environment variables,
+        # while overriding subscription with a guid that the App also has access to.
+
+  DefaultAzPowershellTest:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Connect to Azure
+        uses: equinor/AzConnect@v1
+        with:
+          AzCLIEnabled: false
+          AzPowershellEnabled: true
+        # Loging with Azure Powershell using environment variables.
+
+  DefaultAzureADPowershellTest:
+    runs-on: windows-latest
+    steps:
+
+      - name: Connect to Azure
+        uses: equinor/AzConnect@v1
+        with:
+          AzCLIEnabled: false
+          AzPowershellEnabled: true
+          AzureADEnabled: true
+        # Loging with Azure Powershell and AzureAD using environment variables.
+
+  DefaultMSGraphPowershellTest:
+    runs-on: windows-latest
+    steps:
+
+      - name: Connect to Azure
+        uses: equinor/AzConnect@v1
+        with:
+          AzCLIEnabled: false
+          AzPowershellEnabled: true
+          MSGraphEnabled: true
+        # Loging with Azure Powershell and MSGraph using environment variables.

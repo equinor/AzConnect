@@ -1,0 +1,138 @@
+name: 'Connect to Azure'
+description: 'Connect to Azure with Az CLI, Azure Powershell, Azure AD Powershell, MSGraph'
+
+# TODO: Add support for selecting versions for AzCLI, AzPs and module
+
+inputs:
+  TenantID:
+    description: 'Specifies the tenant to log in to. Default: env.TenantID'
+    required: false
+  AppID:
+    description: 'Specifies the application id to log in with. Default: env.AppID'
+    required: false
+  AppSecret:
+    description: 'Specifies the secret for the application id. Default: env.AppSecret'
+    required: false
+  Subscription:
+    description: 'Specifies the subnscription name or id to log in to. Default: env.Subscription'
+    required: false
+  AzEnvironment:
+    description: 'Specified the azure environment which contains the Azure tenant. Default: env.AzEnvironment'
+    required: false
+  AzCLIEnabled:
+    description: 'Logs on with Azure CLI. Default: env.AzCLIEnabled'
+    required: false
+    default: 'true'
+  UpgradeAzCLI:
+    description: 'Upgrade AzCLI to most recent version. Default: env.UpgradeAzCLI'
+    required: false
+    default: 'false'
+  AzPowershellEnabled:
+    description: 'Enable Azure Powershell support. Default: env.AzPowershellEnabled'
+    required: false
+    default: 'false'
+  AzureADEnabled:
+    description: 'Enable AzureAD support on runner. Requires AzPowershellEnabled to work. Default: env.AzureADEnabled'
+    required: false
+    default: 'false'
+  AzureADPreview:
+    description: 'Use AzureADPreview functionality. Requires AzPowershellEnabled and AzureADEnabled to work. Default: env.AzureADPreview'
+    required: false
+    default: 'false'
+  MSGraphEnabled:
+    description: 'Enable MSGraph support on runner. Requires AzPowershellEnabled to work. Default: env.MSGraphEnabled'
+    required: false
+    default: 'false'
+
+branding:
+  icon: 'activity'
+  color: 'blue'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Prepare-Runner
+      shell: pwsh
+      run: |
+        Write-Output '::group::Prepare-Runner'
+        Import-Module "${{ github.action_path }}\scripts\utils.psm1" -Force
+
+        Write-Output '-------------------------------------------'
+        Write-Output 'Environment variables:'
+        $env = @{
+            AzCLIEnabled        = $env:AzCLIEnabled | ConvertTo-Boolean
+            UpgradeAzCLI        = $env:UpgradeAzCLI | ConvertTo-Boolean
+            AzPowershellEnabled = $env:AzPowershellEnabled | ConvertTo-Boolean
+            AzureADEnabled      = $env:AzureADEnabled | ConvertTo-Boolean
+            AzureADPreview      = $env:AzureADPreview | ConvertTo-Boolean
+            MSGraphEnabled      = $env:MSGraphEnabled | ConvertTo-Boolean
+        }
+        $env.GetEnumerator() | Sort-Object -Property Name
+
+        Write-Output '-------------------------------------------'
+        Write-Output 'Action inputs:'
+        $inputs = @{
+            AzCLIEnabled        = '${{ inputs.AzCLIEnabled }}' | ConvertTo-Boolean
+            UpgradeAzCLI        = '${{ inputs.UpgradeAzCLI }}' | ConvertTo-Boolean
+            AzPowershellEnabled = '${{ inputs.AzPowershellEnabled }}' | ConvertTo-Boolean
+            AzureADEnabled      = '${{ inputs.AzureADEnabled }}' | ConvertTo-Boolean
+            AzureADPreview      = '${{ inputs.AzureADPreview }}' | ConvertTo-Boolean
+            MSGraphEnabled      = '${{ inputs.MSGraphEnabled }}' | ConvertTo-Boolean
+        }
+        $inputs.GetEnumerator() | Sort-Object -Property Name
+
+        Write-Output '-------------------------------------------'
+        Write-Output 'Executing with:'
+        $Params = Merge-Hashtables -Main $env -Overrides $inputs
+        $Params.GetEnumerator() | Sort-Object -Property Name
+
+
+        . "${{ github.action_path }}\scripts\prepare-runner.ps1" @Params
+        Write-Output '::endgroup::'
+
+    - name: Login-to-Azure
+      shell: pwsh
+      run: |
+        Write-Output '::group::Login-to-Azure'
+        Import-Module "${{ github.action_path }}\scripts\utils.psm1" -Force
+
+        Write-Output '-------------------------------------------'
+        Write-Output 'Environment variables:'
+        $env = @{
+            AppID               = $env:AppID
+            AppSecret           = $env:AppSecret | ConvertTo-SecureString -AsPlainText -Force -ErrorAction SilentlyContinue
+            Subscription        = $env:Subscription
+            TenantID            = $env:TenantID
+            AzEnvironment       = $env:AzEnvironment
+            AzCLIEnabled        = $env:AzCLIEnabled | ConvertTo-Boolean
+            AzPowershellEnabled = $env:AzPowershellEnabled | ConvertTo-Boolean
+            AzureADEnabled      = $env:AzureADEnabled | ConvertTo-Boolean
+            AzureADPreview      = $env:AzureADPreview | ConvertTo-Boolean
+            MSGraphEnabled      = $env:MSGraphEnabled | ConvertTo-Boolean
+        }
+        $env.GetEnumerator() | Sort-Object -Property Name
+
+        Write-Output '-------------------------------------------'
+        Write-Output 'Action inputs:'
+        $inputs = @{
+            AppID               = '${{ inputs.AppID }}'
+            AppSecret           = '${{ inputs.AppSecret }}' | ConvertTo-SecureString -AsPlainText -Force -ErrorAction SilentlyContinue
+            Subscription        = '${{ inputs.Subscription }}'
+            TenantID            = '${{ inputs.TenantID }}'
+            AzEnvironment       = '${{ inputs.AzEnvironment }}'
+            AzCLIEnabled        = '${{ inputs.AzCLIEnabled }}' | ConvertTo-Boolean
+            AzPowershellEnabled = '${{ inputs.AzPowershellEnabled }}' | ConvertTo-Boolean
+            AzureADEnabled      = '${{ inputs.AzureADEnabled }}' | ConvertTo-Boolean
+            AzureADPreview      = '${{ inputs.AzureADPreview }}' | ConvertTo-Boolean
+            MSGraphEnabled      = '${{ inputs.MSGraphEnabled }}' | ConvertTo-Boolean
+        }
+        $inputs.GetEnumerator() | Sort-Object -Property Name
+
+        Write-Output '-------------------------------------------'
+        Write-Output 'Executing with:'
+        $Params = Merge-Hashtables -Main $env -Overrides $inputs
+        $Params.GetEnumerator() | Sort-Object -Property Name
+
+        . "${{ github.action_path }}\scripts\login-to-azure.ps1" @Params
+
+        Write-Output '::endgroup::'

@@ -34,6 +34,15 @@ This action uses environment variables with input overrides. For more info pleas
 This action provides no direct outputs to the workflow, however it leaves the job in a state where it is connected to Azure.
 This can be leveraged by other steps in the same job.
 
+## Environment variables
+
+This action creates the following environment variables on the runner.
+
+| Variable name    | description                        |
+| ---------------- | ---------------------------------- |
+| SubscriptionName | Stores the azure subscription name |
+| SubscriptionID   | Stores the azure subscription id   |
+
 ## Usage
 
 ```yaml

@@ -1,0 +1,20 @@
+{
+    "recommendations": [
+        "AzurePolicy.azurepolicyextension",
+        "DavidAnson.vscode-markdownlint",
+        "donjayamanne.githistory",
+        "eamodio.gitlens",
+        "GitHub.vscode-pull-request-github",
+        "Gruntfuggly.todo-tree",
+        "mhutchie.git-graph",
+        "mohsen1.prettify-json",
+        "ms-azuretools.vscode-azureresourcegroups",
+        "ms-azuretools.vscode-bicep",
+        "ms-vscode.azure-account",
+        "ms-vscode.azurecli",
+        "ms-vscode.powershell",
+        "richie5um2.vscode-sort-json",
+        "usernamehw.errorlens",
+        "yzhang.markdown-all-in-one"
+    ]
+}

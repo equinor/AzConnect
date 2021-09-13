@@ -1,0 +1,43 @@
+{
+    "[markdown]": {
+        "editor.quickSuggestions": false,
+        "editor.wordWrap": "off"
+    },
+    "[powershell]": {
+        "editor.wordSeparators": "`~!@#%^&*()=+[{]}\\|;:'\",.<>/?",
+        "files.encoding": "utf8bom"
+    },
+    "[yaml]": {
+        "editor.insertSpaces": true,
+        "editor.tabSize": 2
+    },
+    "[bicep]": {
+        "editor.insertSpaces": true,
+        "editor.tabSize": 4
+    },
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true,
+    "editor.insertSpaces": true,
+    "editor.tabSize": 4,
+    "extensions.ignoreRecommendations": false,
+    "files.associations": {
+        "*.json": "jsonc"
+    },
+    "files.insertFinalNewline": true,
+    "files.trimTrailingWhitespace": true,
+    "git.autofetch": true,
+    "git.followTagsWhenSync": true,
+    "markdownlint.config": {
+        "MD025": false,
+        "MD028": false,
+        "MD041": false
+    },
+    "powershell.codeFormatting.autoCorrectAliases": true,
+    "powershell.codeFormatting.newLineAfterCloseBrace": false,
+    "powershell.codeFormatting.pipelineIndentationStyle": "IncreaseIndentationForFirstPipeline",
+    "powershell.codeFormatting.preset": "OTBS",
+    "powershell.codeFormatting.trimWhitespaceAroundPipe": true,
+    "powershell.codeFormatting.useConstantStrings": true,
+    "powershell.codeFormatting.useCorrectCasing": true,
+    "powershell.codeFormatting.whitespaceBetweenParameters": true
+}

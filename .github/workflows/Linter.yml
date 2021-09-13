@@ -1,0 +1,19 @@
+name: Linter
+
+on: [push]
+
+jobs:
+  Lint:
+    name: Linter
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Lint Code Base
+        # uses: github/super-linter:latest
+        uses: docker://ghcr.io/github/super-linter:slim-v4
+        env:
+          DEFAULT_BRANCH: main
+          VALIDATE_JSCPD: false
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

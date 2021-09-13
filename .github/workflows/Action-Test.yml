@@ -1,0 +1,98 @@
+name: Action-Test
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - action.yml
+      - .github/workflows/Action-Test.yml
+      - Modules/**
+      - Scripts/**
+      - Tests/**
+
+env:
+  TenantID: ${{ secrets.TENANT_ID }}
+  AppID: ${{ secrets.APP_ID }}
+  Subscription: ${{ secrets.SUBSCRIPTION }}
+  AppSecret: ${{ secrets.APP_SECRET }}
+
+jobs:
+  DefaultTest:
+    strategy:
+      matrix:
+        os: [ubuntu-latest,windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+
+      - name: Connect to Azure using defaults
+        uses: equinor/AzConnect@v1
+        # Login to AzCLI using TenantID, AppID, AppSecret and Subscription from environment variables.
+
+  SubscriptionOverrideTest:
+    strategy:
+      matrix:
+        os: [ubuntu-latest,windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+
+      - name: Connect to Azure
+        uses: equinor/AzConnect@v1
+        with:
+          Subscription: ${{ secrets.SUBSCRIPTION_OVERRIDE }}
+        # Login to AzCLI using TenantID, AppID and AppSecret from environment variables,
+        # while overriding subscription with a GUID that the App also has access to.
+
+  DefaultAzPowershellTest:
+    strategy:
+      matrix:
+        os: [ubuntu-latest,windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+
+      - name: Connect to Azure
+        uses: equinor/AzConnect@v1
+        with:
+          AzCLIEnabled: false
+          AzPowershellEnabled: true
+        # Loging with Azure PowerShell using environment variables.
+
+  DefaultAzureADPowershellTest:
+    runs-on: windows-latest
+    steps:
+
+      - name: Connect to Azure
+        uses: equinor/AzConnect@v1
+        with:
+          AzCLIEnabled: false
+          AzPowershellEnabled: true
+          AzureADEnabled: true
+        # Loging with Azure PowerShell and AzureAD using environment variables. AAD is only supported on Windows OS.
+
+  DefaultMSGraphPowershellTest:
+    strategy:
+      matrix:
+        os: [ubuntu-latest,windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+
+      - name: Connect to Azure
+        uses: equinor/AzConnect@v1
+        with:
+          AzCLIEnabled: false
+          AzPowershellEnabled: true
+          MSGraphEnabled: true
+        # Loging with Azure PowerShell and MSGraph using environment variables.
+
+  DefaultMSGraphSoloTest:
+    strategy:
+      matrix:
+        os: [ubuntu-latest,windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+
+      - name: Connect to Azure
+        uses: equinor/AzConnect@v1
+        with:
+          AzCLIEnabled: false
+          MSGraphEnabled: true
+        # Loging with MSGraph using environment variables.

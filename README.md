@@ -30,9 +30,9 @@ These contributions could be made to [azure/login](https://github.com/azure/logi
 | Input name            | Default | Required | Description                                                                     | Allowed values                                                                                   |
 | :-------------------- | :------ | :------- | :------------------------------------------------------------------------------ | :----------------------------------------------------------------------------------------------- |
 | `TenantID`            |         | Yes      | Specifies the tenant to log in to.                                              | GUID                                                                                             |
-| `AppID`               |         | Yes      | Specifies the application id to log in with.                                    | GUID                                                                                             |
-| `AppSecret`           |         | Yes      | Specifies the secret for the application id.                                    | string (use ${{ secrets.APP_SECRET }})                                                           |
-| `Subscription`        |         | No       | Specifies the subnscription name or id to log in to.                            | string (GUID or name of subscription)                                                            |
+| `AppID`               |         | Yes      | Specifies the application ID to log in with.                                    | GUID                                                                                             |
+| `AppSecret`           |         | Yes      | Specifies the secret for the application ID.                                    | string (use ${{ secrets.APP_SECRET }})                                                           |
+| `Subscription`        |         | No       | Specifies the subnscription name or ID to log in to.                            | string (GUID or name of subscription)                                                            |
 | `AzEnvironment`       |         | No       | Specified the azure environment which contains the Azure tenant.                | string, [Azure Environments](https://docs.microsoft.com/en-us/cli/azure/manage-clouds-azure-cli) |
 | `AzCLIEnabled`        | `true`  | Yes      | Log in with Azure CLI                                                           | `true`/`false`                                                                                   |
 | `UpgradeAzCLI`        | `false` | No       | Upgrade AzCLI to most recent version.                                           | `true`/`false`                                                                                   |
@@ -56,7 +56,7 @@ This action creates the following environment variables on the runner.
 | Variable name      | Description                                        |
 | :----------------- | :------------------------------------------------- |
 | `SubscriptionName` | The Azure subscription name in the current context |
-| `SubscriptionID`   | The Azure subscription id in the current context   |
+| `SubscriptionID`   | The Azure subscription ID in the current context   |
 
 ## Usage
 

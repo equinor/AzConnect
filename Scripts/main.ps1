@@ -50,9 +50,7 @@ if ($AzCLIEnabled) {
 
 Write-Output "$Task-Prepare-Runner - AzPowershellEnabled - $AzPowershellEnabled"
 if ($AzPowershellEnabled) {
-    Set-PSRepository PSGallery -InstallationPolicy Trusted
-    # We only need the Az.Accounts module for this script.
-    Install-Module -Name Az.Accounts -Scope CurrentUser -AllowClobber -Force
+    Import-Module -Name Az.Accounts -WarningAction SilentlyContinue
 
     Write-Output "$Task-Prepare-Runner - AzPowershellEnabled - AzureADEnabled - $AzureADEnabled"
     if ($AzureADEnabled) {
@@ -115,7 +113,6 @@ if ($AzCLIEnabled) {
 
 Write-Output "$Task-Connecting - AzPowershellEnabled - $AzPowershellEnabled"
 if ($AzPowershellEnabled) {
-    # We only need to import Az.Accounts for account management.
     Import-Module -Name Az.Accounts -WarningAction SilentlyContinue
 
     Write-Output "$Task-Connecting - AzPowershellEnabled - Login"

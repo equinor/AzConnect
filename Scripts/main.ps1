@@ -51,7 +51,8 @@ if ($AzCLIEnabled) {
 Write-Output "$Task-Prepare-Runner - AzPowershellEnabled - $AzPowershellEnabled"
 if ($AzPowershellEnabled) {
     Set-PSRepository PSGallery -InstallationPolicy Trusted
-    Install-Module -Name Az -Scope CurrentUser -AllowClobber -Force
+    # We only need the Az.Accounts module for this script.
+    Install-Module -Name Az.Accounts -Scope CurrentUser -AllowClobber -Force
 
     Write-Output "$Task-Prepare-Runner - AzPowershellEnabled - AzureADEnabled - $AzureADEnabled"
     if ($AzureADEnabled) {
@@ -77,7 +78,7 @@ if ($MSGraphEnabled) {
 #region Connecting
 New-GitHubLogGroup -Title "$Task-Connecting"
 
-if ($AzEnvironment | IsNullOrEmpty ){
+if ($AzEnvironment | IsNullOrEmpty ) {
     $AzEnvironment = 'AzureCloud'
 }
 
@@ -114,7 +115,8 @@ if ($AzCLIEnabled) {
 
 Write-Output "$Task-Connecting - AzPowershellEnabled - $AzPowershellEnabled"
 if ($AzPowershellEnabled) {
-    Import-Module -Name Az -WarningAction SilentlyContinue
+    # We only need to import Az.Accounts for account management.
+    Import-Module -Name Az.Accounts -WarningAction SilentlyContinue
 
     Write-Output "$Task-Connecting - AzPowershellEnabled - Login"
     $Credential = New-Object -TypeName System.Management.Automation.PSCredential($AppID, $AppSecret)
@@ -166,14 +168,14 @@ if ($AzPowershellEnabled) {
                 Import-Module -Name AzureADPreview -WarningAction SilentlyContinue
             } catch {
                 Write-Warning $_
-                throw "$Task-Connecting - AzPowershellEnabled - AzureADEnabled - AzureADPreview - $AzureADPreview - Failed Import-Moduel -Name AzureADPreview"
+                throw "$Task-Connecting - AzPowershellEnabled - AzureADEnabled - AzureADPreview - $AzureADPreview - Failed Import-Module -Name AzureADPreview"
             }
         } else {
             try {
                 Import-Module -Name AzureAD -WarningAction SilentlyContinue
             } catch {
                 Write-Warning $_
-                throw "$Task-Connecting - AzPowershellEnabled - AzureADEnabled - AzureADPreview - $AzureADPreview - Failed Import-Moduel -Name AzureAD"
+                throw "$Task-Connecting - AzPowershellEnabled - AzureADEnabled - AzureADPreview - $AzureADPreview - Failed Import-Module -Name AzureAD"
             }
         }
 

@@ -50,6 +50,8 @@ if ($AzCLIEnabled) {
 
 Write-Output "$Task-Prepare-Runner - AzPowershellEnabled - $AzPowershellEnabled"
 if ($AzPowershellEnabled) {
+    Set-PSRepository PSGallery -InstallationPolicy Trusted
+    Install-Module -Name Az.Accounts -Scope CurrentUser -AllowClobber -Force
     Import-Module -Name Az.Accounts -WarningAction SilentlyContinue
 
     Write-Output "$Task-Prepare-Runner - AzPowershellEnabled - AzureADEnabled - $AzureADEnabled"
